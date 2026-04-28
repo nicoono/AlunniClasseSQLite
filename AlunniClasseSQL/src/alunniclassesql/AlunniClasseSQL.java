@@ -4,6 +4,8 @@
  */
 package alunniclassesql;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Scanner;
 /**
  *
  * @author onorati.nicolo
@@ -14,21 +16,22 @@ public class AlunniClasseSQL {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        String url = "jdbc:sqlite:scuola.db";
-
-        try (Connection conn = DriverManager.getConnection(url);
-             Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery("SELECT * FROM classi")) {
-            
-            while (rs.next()) {
-                System.out.println(
-                    rs.getString("id_classe") + " - " + 
-                    rs.getString("indirizzo")
-                );
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-}
+        Gestore g = new Gestore();
+        g.leggiClassi();
+        
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Inserisci classe: ");
+         String classe = sc.nextLine();
+        
+        
+        ArrayList<String> listaStudenti = g.leggiStudenti(classe);
     
+        System.out.println("Studenti della classe " + classe + ":");
+    
+        for (String studente : listaStudenti) {
+            System.out.println("- " + studente);
+        }
+        sc.close();
+        
+    }
+}   
