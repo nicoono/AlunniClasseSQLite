@@ -41,6 +41,12 @@ public class Gestore {
                 if(rs.getString("id_classe").equals(idClasse)) {
                     studenti.add(rs.getString("nome") + " " + rs.getString("cognome"));
                 }
+  
+            }
+            for(int i=0;i<studenti.size();i++){
+                if(studenti == null){
+                    studenti.add("la classe non esiste");
+                }
             }
             
         } catch (Exception e) {
@@ -50,5 +56,34 @@ public class Gestore {
         return studenti;
     }
     
+    public void leggiPrtecipazioneGita (){
+        System.out.println("elenco degli alunni che partecipano ad  una gita:");
+        try (Connection conn = DriverManager.getConnection(url);
+             Statement st = conn.createStatement();
+             ResultSet rs = st.executeQuery("SELECT alunni.nome, alunni.cognome, gite.destinazione, gite.prezzo, partecipanti.pagato " +
+                                            "FROM alunni " +
+                                            "JOIN partecipanti ON alunni.id_alunno = partecipanti.id_alunno " +
+                                            "JOIN gite ON partecipanti.id_gita = gite.id_gita")){
+            while (rs.next()) {
+            String nome = rs.getString("nome");
+            String cognome = rs.getString("cognome");
+            String destinazione = rs.getString("destinazione");
+            double prezzo = rs.getDouble("prezzo");
+            int pagato = rs.getInt("pagato");
+            String pagatoTesto=" ";
+            if(pagato == 1){
+                pagatoTesto = "SI";
+            }
+            else{
+                pagatoTesto = "NO";
+            }
+            System.out.println(nome + " - " + cognome + " - " +  destinazione + " - " + prezzo + " - " + pagatoTesto);
+        }
+        }
+        catch (Exception e) {
+            System.err.println("Errore durante la lettura: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
     
 }
