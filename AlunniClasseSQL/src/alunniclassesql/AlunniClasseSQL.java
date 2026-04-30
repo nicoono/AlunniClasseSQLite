@@ -16,8 +16,15 @@ public class AlunniClasseSQL {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        Interfaccia i = new Interfaccia();
+        i.setVisible(true);
+        
         Gestore g = new Gestore();
         g.leggiClassi();
+        ArrayList<String> listaClassi = g.leggiClassi();
+        for (String classe : listaClassi) {
+            System.out.println("- " + classe);
+        }
         
         Scanner sc = new Scanner(System.in);
         System.out.print("Inserisci classe: ");

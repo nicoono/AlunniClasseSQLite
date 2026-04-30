@@ -9,7 +9,7 @@ package alunniclassesql;
  * @author onorati.nicolo
  */
 public class Interfaccia extends javax.swing.JFrame {
-    
+    Gestore g = new Gestore();
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Interfaccia.class.getName());
 
     /**
@@ -17,6 +17,11 @@ public class Interfaccia extends javax.swing.JFrame {
      */
     public Interfaccia() {
         initComponents();
+        for (String classe : g.leggiClassi()) {
+                cmb_mostraClassi.addItem(classe);
+            }
+        
+        
     }
 
     /**
@@ -28,21 +33,61 @@ public class Interfaccia extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        cmb_mostraClassi = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtA_elencoAlunni = new javax.swing.JTextArea();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        cmb_mostraClassi.addActionListener(this::cmb_mostraClassiActionPerformed);
+
+        jLabel1.setText("CLASSE");
+
+        txtA_elencoAlunni.setColumns(20);
+        txtA_elencoAlunni.setRows(5);
+        jScrollPane1.setViewportView(txtA_elencoAlunni);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(419, 419, 419)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(317, 317, 317)
+                .addComponent(cmb_mostraClassi, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(359, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(102, 102, 102)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cmb_mostraClassi, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(126, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cmb_mostraClassiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_mostraClassiActionPerformed
+            String classeSelezionata = String.valueOf(cmb_mostraClassi.getSelectedItem());
+            txtA_elencoAlunni.setText("");
+            for (String s : g.leggiStudenti(classeSelezionata.toString())) {
+                    txtA_elencoAlunni.append(s + "\n");
+            }
+        
+    }//GEN-LAST:event_cmb_mostraClassiActionPerformed
 
     /**
      * @param args the command line arguments
@@ -70,5 +115,9 @@ public class Interfaccia extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cmb_mostraClassi;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea txtA_elencoAlunni;
     // End of variables declaration//GEN-END:variables
 }
