@@ -81,12 +81,20 @@ public class Interfaccia extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmb_mostraClassiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_mostraClassiActionPerformed
-            String classeSelezionata = String.valueOf(cmb_mostraClassi.getSelectedItem());
-            txtA_elencoAlunni.setText("");
-            for (String s : g.leggiStudenti(classeSelezionata.toString())) {
-                    txtA_elencoAlunni.append(s + "\n");
-            }
-        
+        Object selezionato = cmb_mostraClassi.getSelectedItem();
+
+        if (selezionato == null) {
+            return;
+        }
+
+        String classeSelezionata = selezionato.toString();
+        txtA_elencoAlunni.setText("");
+
+        for (String s : g.leggiStudenti(classeSelezionata)) {
+            txtA_elencoAlunni.append(s + "\n");
+        }
+
+
     }//GEN-LAST:event_cmb_mostraClassiActionPerformed
 
     /**

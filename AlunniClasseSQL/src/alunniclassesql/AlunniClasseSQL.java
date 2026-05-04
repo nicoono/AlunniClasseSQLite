@@ -19,7 +19,7 @@ public class AlunniClasseSQL {
         Interfaccia i = new Interfaccia();
         i.setVisible(true);
         
-        Gestore g = new Gestore();
+        /*Gestore g = new Gestore();
         g.leggiClassi();
         ArrayList<String> listaClassi = g.leggiClassi();
         for (String classe : listaClassi) {
@@ -40,6 +40,6 @@ public class AlunniClasseSQL {
         }
         sc.close();
         
-        g.leggiPrtecipazioneGita();
+        g.leggiPrtecipazioneGita();*/
     }
 }   

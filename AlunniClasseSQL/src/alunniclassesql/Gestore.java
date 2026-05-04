@@ -29,23 +29,30 @@ public class Gestore {
             return classi;
         }
     
-    public ArrayList<String> leggiStudenti(String idClasse) {
+    public ArrayList<String> leggiStudenti(String stringaDallaCombo) {
         ArrayList<String> studenti = new ArrayList<>();
         
+        // 1. Estraiamo l'ID (es. "3D") dalla stringa intera (es. "3D - Informatica")
+        String idClasseCercato = stringaDallaCombo.split(" - ")[0];
+
+        // 2. Query ottimizzata: chiediamo al DB solo gli alunni di quella classe
+        String query = "SELECT nome, cognome FROM alunni WHERE id_classe = ?";
+        
         try (Connection conn = DriverManager.getConnection(url);
-             Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery("SELECT nome, cognome, id_classe FROM alunni")) {
+             PreparedStatement ps = conn.prepareStatement(query)) {
            
-            while(rs.next()){
-                if(rs.getString("id_classe").equals(idClasse)) {
+            // Sostituiamo il "?" della query con l'ID pulito
+            ps.setString(1, idClasseCercato);
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                while(rs.next()){
                     studenti.add(rs.getString("nome") + " " + rs.getString("cognome"));
                 }
-  
             }
-            for(int i=0;i<studenti.size();i++){
-                if(studenti == null){
-                    studenti.add("la classe non esiste");
-                }
+            
+            // Se la lista è rimasta vuota dopo la query
+            if (studenti.isEmpty()) {
+                studenti.add("Nessun alunno trovato per questa classe.");
             }
             
         } catch (Exception e) {
@@ -54,6 +61,7 @@ public class Gestore {
         }
         return studenti;
     }
+  
     
     public void leggiPrtecipazioneGita (){
         System.out.println("elenco degli alunni che partecipano ad  una gita:");
