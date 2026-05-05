@@ -37,7 +37,7 @@ public class Interfaccia extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtA_elencoAlunni = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
+        btn_cambiaSchermata = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -50,8 +50,8 @@ public class Interfaccia extends javax.swing.JFrame {
         txtA_elencoAlunni.setRows(5);
         jScrollPane1.setViewportView(txtA_elencoAlunni);
 
-        jButton1.setText("vai a schermata aggiungi/elimina studente");
-        jButton1.addActionListener(this::jButton1ActionPerformed);
+        btn_cambiaSchermata.setText("vai a schermata aggiungi/elimina studente");
+        btn_cambiaSchermata.addActionListener(this::btn_cambiaSchermataActionPerformed);
 
         jLabel2.setText("ELENCO ALUNNI");
 
@@ -63,7 +63,7 @@ public class Interfaccia extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btn_cambiaSchermata, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(412, 412, 412)
@@ -90,7 +90,7 @@ public class Interfaccia extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(btn_cambiaSchermata)
                 .addContainerGap(73, Short.MAX_VALUE))
         );
 
@@ -114,11 +114,11 @@ public class Interfaccia extends javax.swing.JFrame {
 
     }//GEN-LAST:event_cmb_mostraClassiActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btn_cambiaSchermataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cambiaSchermataActionPerformed
         AggiungiElimina ag = new AggiungiElimina();
         ag.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btn_cambiaSchermataActionPerformed
 
     /**
      * @param args the command line arguments
@@ -146,8 +146,8 @@ public class Interfaccia extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_cambiaSchermata;
     private javax.swing.JComboBox<String> cmb_mostraClassi;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

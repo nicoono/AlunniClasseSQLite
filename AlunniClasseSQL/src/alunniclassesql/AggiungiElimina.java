@@ -9,14 +9,16 @@ package alunniclassesql;
  * @author onorati.nicolo
  */
 public class AggiungiElimina extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AggiungiElimina.class.getName());
+    Gestore g = new Gestore();
 
     /**
      * Creates new form AggiungiElimina
      */
     public AggiungiElimina() {
         initComponents();
+
     }
 
     /**
@@ -28,18 +30,26 @@ public class AggiungiElimina extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btn_aggiungi = new javax.swing.JButton();
+        btn_elimina = new javax.swing.JButton();
+        btn_home = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtA_scegliAlunno = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("AGGIUNGI");
+        btn_aggiungi.setText("AGGIUNGI");
+        btn_aggiungi.addActionListener(this::btn_aggiungiActionPerformed);
 
-        jButton2.setText("ELIMINA");
+        btn_elimina.setText("ELIMINA");
 
-        jButton3.setText("HOME");
-        jButton3.addActionListener(this::jButton3ActionPerformed);
+        btn_home.setText("HOME");
+        btn_home.addActionListener(this::btn_homeActionPerformed);
+
+        txtA_scegliAlunno.setColumns(20);
+        txtA_scegliAlunno.setRows(5);
+        txtA_scegliAlunno.setText("Nome, Cognome, Classe\nES: Mario, Rossi, 5D");
+        jScrollPane1.setViewportView(txtA_scegliAlunno);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -48,32 +58,58 @@ public class AggiungiElimina extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(101, 101, 101)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)))
+                    .addComponent(btn_home, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_elimina, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_aggiungi, javax.swing.GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE))
                 .addContainerGap(102, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(126, 126, 126))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(202, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addContainerGap(124, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btn_aggiungi)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(btn_elimina)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
+                .addComponent(btn_home)
                 .addGap(67, 67, 67))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btn_homeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_homeActionPerformed
         Interfaccia i = new Interfaccia();
         i.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btn_homeActionPerformed
+
+    private void btn_aggiungiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aggiungiActionPerformed
+        String testo = txtA_scegliAlunno.getText();
+        String parti[] = testo.split(",");
+        if (parti.length == 3) {
+            String nome = parti[0].trim();
+            String cognome = parti[1].trim();
+            String idClasse = parti[2].trim();
+
+            if (g.aggiungiAlunno(nome, cognome, idClasse)) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Alunno " + nome + " aggiunto alla classe " + idClasse);
+                txtA_scegliAlunno.setText("");
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, "Errore durante l'inserimento nel database.");
+            }
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Formato errato! Usa: Nome, Cognome, ID_Classe\nEsempio: Mario, Rossi, 1");
+        }
+
+    }//GEN-LAST:event_btn_aggiungiActionPerformed
 
     /**
      * @param args the command line arguments
@@ -101,8 +137,10 @@ public class AggiungiElimina extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btn_aggiungi;
+    private javax.swing.JButton btn_elimina;
+    private javax.swing.JButton btn_home;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea txtA_scegliAlunno;
     // End of variables declaration//GEN-END:variables
 }
