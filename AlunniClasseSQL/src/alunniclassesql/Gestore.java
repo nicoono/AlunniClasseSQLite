@@ -32,16 +32,16 @@ public class Gestore {
     public ArrayList<String> leggiStudenti(String stringaDallaCombo) {
         ArrayList<String> studenti = new ArrayList<>();
         
-        // 1. Estraiamo l'ID (es. "3D") dalla stringa intera (es. "3D - Informatica")
+        
         String idClasseCercato = stringaDallaCombo.split(" - ")[0];
 
-        // 2. Query ottimizzata: chiediamo al DB solo gli alunni di quella classe
+        
         String query = "SELECT nome, cognome FROM alunni WHERE id_classe = ?";
         
         try (Connection conn = DriverManager.getConnection(url);
              PreparedStatement ps = conn.prepareStatement(query)) {
            
-            // Sostituiamo il "?" della query con l'ID pulito
+            
             ps.setString(1, idClasseCercato);
             
             try (ResultSet rs = ps.executeQuery()) {
@@ -50,7 +50,7 @@ public class Gestore {
                 }
             }
             
-            // Se la lista è rimasta vuota dopo la query
+            
             if (studenti.isEmpty()) {
                 studenti.add("Nessun alunno trovato per questa classe.");
             }
