@@ -45,7 +45,6 @@ public class Gestore {
                 }
             }
 
-
             if (studenti.isEmpty()) {
                 studenti.add("Nessun alunno trovato per questa classe.");
             }
@@ -84,17 +83,21 @@ public class Gestore {
     }
 
     public boolean aggiungiAlunno(String nome, String cognome, String idClasse) {
+
         String query = "INSERT INTO alunni (nome, cognome, id_classe) VALUES (?, ?, ?)";
-        try (Connection conn = DriverManager.getConnection(url); 
-                PreparedStatement ps = conn.prepareStatement(query)) {
+
+        try (Connection conn = DriverManager.getConnection(url); PreparedStatement ps = conn.prepareStatement(query)) {
+
             ps.setString(1, nome);
             ps.setString(2, cognome);
             ps.setString(3, idClasse);
-            return true;
+
+            int righeInserite = ps.executeUpdate();
+            return righeInserite > 0;
+
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
-
     }
 }
