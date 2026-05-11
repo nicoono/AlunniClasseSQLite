@@ -30,27 +30,19 @@ public class Gestore {
 
     public ArrayList<String> leggiStudenti(String stringaDallaCombo) {
         ArrayList<String> studenti = new ArrayList<>();
-
         String idClasseCercato = stringaDallaCombo.split(" - ")[0];
 
-        String query = "SELECT nome, cognome FROM alunni WHERE id_classe = ?";
+        String query = "SELECT id_alunno, nome, cognome FROM alunni WHERE id_classe = ?";
 
         try (Connection conn = DriverManager.getConnection(url); PreparedStatement ps = conn.prepareStatement(query)) {
-
             ps.setString(1, idClasseCercato);
-
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    studenti.add(rs.getString("nome") + " " + rs.getString("cognome"));
+
+                    studenti.add(rs.getInt("id_alunno") + " - " + rs.getString("nome") + " " + rs.getString("cognome"));
                 }
             }
-
-            if (studenti.isEmpty()) {
-                studenti.add("Nessun alunno trovato per questa classe.");
-            }
-
         } catch (Exception e) {
-            System.err.println("Errore durante la lettura degli studenti: " + e.getMessage());
             e.printStackTrace();
         }
         return studenti;
@@ -99,5 +91,20 @@ public class Gestore {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public boolean rimuoviAlunno(int idAlunno) {
+        String query = "DELETE FROM alunni WHERE id_alunno=?";
+        try (Connection conn = DriverManager.getConnection(url); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, idAlunno);
+
+            int righeCancellate = ps.executeUpdate();
+
+            return righeCancellate > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 }
