@@ -22,6 +22,10 @@ public class Interfaccia extends javax.swing.JFrame {
         for (String classe : g.leggiClassi()) {
                 cmb_mostraClassi.addItem(classe);
             }
+        txtF_nome.setText("");
+        txtF_cognome.setText("");
+        txtF_nomeUpdate.setText("");
+        txtF_cognomeUpdate.setText("");
         
     }
 
@@ -46,13 +50,15 @@ public class Interfaccia extends javax.swing.JFrame {
         jSeparator3 = new javax.swing.JSeparator();
         jLabel7 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        cmb_scegliAlunniUpdate = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         txtF_nome = new javax.swing.JTextField();
         txtF_cognome = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        txtF_nomeUpdate = new javax.swing.JTextField();
+        txtF_cognomeUpdate = new javax.swing.JTextField();
+        jSeparator4 = new javax.swing.JSeparator();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -72,6 +78,8 @@ public class Interfaccia extends javax.swing.JFrame {
         btn_rimuovi.setText("RIMUOVI ALUNNO");
         btn_rimuovi.addActionListener(this::btn_rimuoviActionPerformed);
 
+        cmb_scegliAlunni.addActionListener(this::cmb_scegliAlunniActionPerformed);
+
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         jLabel3.setText("NOME");
@@ -86,8 +94,7 @@ public class Interfaccia extends javax.swing.JFrame {
         jLabel7.setText("AGGIORNA ALUNNO");
 
         jButton3.setText("AGGIORNA ALUNNO");
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jButton3.addActionListener(this::jButton3ActionPerformed);
 
         jLabel8.setText("NOME");
 
@@ -97,9 +104,11 @@ public class Interfaccia extends javax.swing.JFrame {
 
         txtF_cognome.setText("jTextField2");
 
-        jTextField3.setText("jTextField3");
+        txtF_nomeUpdate.setText("jTextField3");
 
-        jTextField4.setText("jTextField4");
+        txtF_cognomeUpdate.setText("jTextField4");
+
+        jButton1.setText("PASSA A SCHERMATA GITE");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -140,9 +149,11 @@ public class Interfaccia extends javax.swing.JFrame {
                                                 .addGap(0, 0, Short.MAX_VALUE))
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGap(0, 0, Short.MAX_VALUE)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                    .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(txtF_cognome, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                        .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(txtF_cognome, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                                         .addContainerGap())
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addGap(0, 0, Short.MAX_VALUE)
@@ -170,16 +181,21 @@ public class Interfaccia extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel9))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtF_nomeUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jTextField4)))
+                                        .addComponent(txtF_cognomeUpdate)))
                                 .addGap(26, 26, 26))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(63, 63, 63))))))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(cmb_scegliAlunniUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(63, 63, 63))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(57, 57, 57))))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -210,16 +226,20 @@ public class Interfaccia extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton3)
                 .addGap(18, 18, 18)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cmb_scegliAlunniUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(102, 102, 102))
+                    .addComponent(txtF_nomeUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtF_cognomeUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(jButton1)
+                .addGap(37, 37, 37))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -255,6 +275,9 @@ public class Interfaccia extends javax.swing.JFrame {
         for (String s : g.leggiStudenti(classeSelezionata)) {
             cmb_scegliAlunni.addItem(s);
         }
+        for (String s : g.leggiStudenti(classeSelezionata)) {
+            cmb_scegliAlunniUpdate.addItem(s);
+        }
 
     }//GEN-LAST:event_cmb_mostraClassiActionPerformed
 
@@ -281,15 +304,14 @@ public class Interfaccia extends javax.swing.JFrame {
         String nome = txtF_nome.getText().trim();
         String cognome = txtF_cognome.getText().trim();
         Object selezionato = cmb_mostraClassi.getSelectedItem();
-
+        //Estraggo l'ID della classe (es. da "3AI - Informatica" prendo "3AI")
+        String idClasse = selezionato.toString().split(" - ")[0];
+        
         if (nome.isEmpty() || cognome.isEmpty() || selezionato == null) {
             JOptionPane.showMessageDialog(this, "Per favore, compila tutti i campi e seleziona una classe.");
         }
 
-        //Estraggo l'ID della classe (es. da "3AI - Informatica" prendo "3AI")
-        String idClasse = selezionato.toString().split(" - ")[0];
-
-        if (g.aggiungiAlunno(nome, cognome, idClasse)) {
+        else if (g.aggiungiAlunno(nome, cognome, idClasse)) {
             JOptionPane.showMessageDialog(this, "Alunno inserito!");
 
             txtF_nome.setText("");
@@ -299,6 +321,14 @@ public class Interfaccia extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Errore nell'inserimento.");
         }
     }//GEN-LAST:event_btn_aggiungiAlunnoActionPerformed
+
+    private void cmb_scegliAlunniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_scegliAlunniActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmb_scegliAlunniActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -330,8 +360,9 @@ public class Interfaccia extends javax.swing.JFrame {
     private javax.swing.JButton btn_rimuovi;
     private javax.swing.JComboBox<String> cmb_mostraClassi;
     private javax.swing.JComboBox<String> cmb_scegliAlunni;
+    private javax.swing.JComboBox<String> cmb_scegliAlunniUpdate;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -345,10 +376,11 @@ public class Interfaccia extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JSeparator jSeparator4;
     private javax.swing.JTextArea txtA_elencoAlunni;
     private javax.swing.JTextField txtF_cognome;
+    private javax.swing.JTextField txtF_cognomeUpdate;
     private javax.swing.JTextField txtF_nome;
+    private javax.swing.JTextField txtF_nomeUpdate;
     // End of variables declaration//GEN-END:variables
 }
