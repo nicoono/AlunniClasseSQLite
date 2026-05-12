@@ -28,6 +28,26 @@ public class Interfaccia extends javax.swing.JFrame {
         txtF_cognomeUpdate.setText("");
         
     }
+    public void aggiorna(){
+        Object selezionato = cmb_mostraClassi.getSelectedItem();
+        if (selezionato == null) {
+            return;
+        }
+
+        String classeSelezionata = selezionato.toString();
+        
+        for (String s : g.leggiStudenti(classeSelezionata)) {
+            txtA_elencoAlunni.append(s + "\n");
+        }
+        cmb_scegliAlunni.removeAllItems();
+        cmb_scegliAlunniUpdate.removeAllItems();
+        for (String s : g.leggiStudenti(classeSelezionata)) {
+            cmb_scegliAlunni.addItem(s);
+        }
+        for (String s : g.leggiStudenti(classeSelezionata)) {
+            cmb_scegliAlunniUpdate.addItem(s);
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -49,7 +69,7 @@ public class Interfaccia extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         jLabel7 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        btn_aggiornaAlunno = new javax.swing.JButton();
         cmb_scegliAlunniUpdate = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -93,8 +113,8 @@ public class Interfaccia extends javax.swing.JFrame {
 
         jLabel7.setText("AGGIORNA ALUNNO");
 
-        jButton3.setText("AGGIORNA ALUNNO");
-        jButton3.addActionListener(this::jButton3ActionPerformed);
+        btn_aggiornaAlunno.setText("AGGIORNA ALUNNO");
+        btn_aggiornaAlunno.addActionListener(this::btn_aggiornaAlunnoActionPerformed);
 
         jLabel8.setText("NOME");
 
@@ -191,7 +211,7 @@ public class Interfaccia extends javax.swing.JFrame {
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(cmb_scegliAlunniUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(btn_aggiornaAlunno, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(63, 63, 63))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -224,7 +244,7 @@ public class Interfaccia extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3)
+                .addComponent(btn_aggiornaAlunno)
                 .addGap(18, 18, 18)
                 .addComponent(cmb_scegliAlunniUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -268,17 +288,7 @@ public class Interfaccia extends javax.swing.JFrame {
         String classeSelezionata = selezionato.toString();
         txtA_elencoAlunni.setText("");
 
-        for (String s : g.leggiStudenti(classeSelezionata)) {
-            txtA_elencoAlunni.append(s + "\n");
-        }
-        cmb_scegliAlunni.removeAllItems();
-        for (String s : g.leggiStudenti(classeSelezionata)) {
-            cmb_scegliAlunni.addItem(s);
-        }
-        for (String s : g.leggiStudenti(classeSelezionata)) {
-            cmb_scegliAlunniUpdate.addItem(s);
-        }
-
+        this.aggiorna();
     }//GEN-LAST:event_cmb_mostraClassiActionPerformed
 
     private void btn_rimuoviActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_rimuoviActionPerformed
@@ -298,14 +308,18 @@ public class Interfaccia extends javax.swing.JFrame {
         } else {
             javax.swing.JOptionPane.showMessageDialog(this, "Errore nella rimozione.");
         }
+        
+        this.aggiorna();
     }//GEN-LAST:event_btn_rimuoviActionPerformed
 
     private void btn_aggiungiAlunnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aggiungiAlunnoActionPerformed
+        
         String nome = txtF_nome.getText().trim();
         String cognome = txtF_cognome.getText().trim();
         Object selezionato = cmb_mostraClassi.getSelectedItem();
         //Estraggo l'ID della classe (es. da "3AI - Informatica" prendo "3AI")
         String idClasse = selezionato.toString().split(" - ")[0];
+        String classeSelezionata = selezionato.toString();
         
         if (nome.isEmpty() || cognome.isEmpty() || selezionato == null) {
             JOptionPane.showMessageDialog(this, "Per favore, compila tutti i campi e seleziona una classe.");
@@ -320,15 +334,17 @@ public class Interfaccia extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Errore nell'inserimento.");
         }
+        
+        this.aggiorna();
     }//GEN-LAST:event_btn_aggiungiAlunnoActionPerformed
 
     private void cmb_scegliAlunniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_scegliAlunniActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmb_scegliAlunniActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btn_aggiornaAlunnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aggiornaAlunnoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btn_aggiornaAlunnoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -356,13 +372,13 @@ public class Interfaccia extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_aggiornaAlunno;
     private javax.swing.JButton btn_aggiungiAlunno;
     private javax.swing.JButton btn_rimuovi;
     private javax.swing.JComboBox<String> cmb_mostraClassi;
     private javax.swing.JComboBox<String> cmb_scegliAlunni;
     private javax.swing.JComboBox<String> cmb_scegliAlunniUpdate;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -17,7 +17,8 @@ public class Gestore {
 
     public ArrayList<String> leggiClassi() {
         ArrayList<String> classi = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(url); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery("SELECT * FROM classi")) {
+        try (Connection conn = DriverManager.getConnection(url); Statement st = conn.createStatement(); 
+                ResultSet rs = st.executeQuery("SELECT * FROM classi")) {
 
             while (rs.next()) {
                 classi.add(rs.getString("id_classe") + " - " + rs.getString("indirizzo"));
