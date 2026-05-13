@@ -17,7 +17,8 @@ public class Gestore {
 
     public ArrayList<String> leggiClassi() {
         ArrayList<String> classi = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(url); Statement st = conn.createStatement(); 
+        try (Connection conn = DBManager.getConnection();
+                Statement st = conn.createStatement(); 
                 ResultSet rs = st.executeQuery("SELECT * FROM classi")) {
 
             while (rs.next()) {
@@ -35,7 +36,8 @@ public class Gestore {
 
         String query = "SELECT id_alunno, nome, cognome FROM alunni WHERE id_classe = ?";
 
-        try (Connection conn = DriverManager.getConnection(url); PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DriverManager.getConnection(url); 
+                PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, idClasseCercato);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -51,7 +53,8 @@ public class Gestore {
 
     public void leggiPrtecipazioneGita() {
         System.out.println("elenco degli alunni che partecipano ad  una gita:");
-        try (Connection conn = DriverManager.getConnection(url); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery("SELECT alunni.nome, alunni.cognome, gite.destinazione, gite.prezzo, partecipanti.pagato "
+        try (Connection conn = DriverManager.getConnection(url); 
+                Statement st = conn.createStatement(); ResultSet rs = st.executeQuery("SELECT alunni.nome, alunni.cognome, gite.destinazione, gite.prezzo, partecipanti.pagato "
                 + "FROM alunni "
                 + "JOIN partecipanti ON alunni.id_alunno = partecipanti.id_alunno "
                 + "JOIN gite ON partecipanti.id_gita = gite.id_gita")) {
