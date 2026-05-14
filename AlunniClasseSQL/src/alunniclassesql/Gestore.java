@@ -48,7 +48,8 @@ public class Gestore {
         return studenti;
     }
 
-    public void leggiPrtecipazioneGita() {
+    public ArrayList<String> leggiPartecipazioneGita() {
+        ArrayList<String> partecipanti = new ArrayList<>();
         System.out.println("elenco degli alunni che partecipano ad  una gita:");
         try (Connection conn = DriverManager.getConnection(url); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery("SELECT alunni.nome, alunni.cognome, gite.destinazione, gite.prezzo, partecipanti.pagato "
                 + "FROM alunni "
@@ -72,6 +73,7 @@ public class Gestore {
             System.err.println("Errore durante la lettura: " + e.getMessage());
             e.printStackTrace();
         }
+        return partecipanti;
     }
 
     public boolean aggiungiAlunno(String nome, String cognome, String idClasse) {

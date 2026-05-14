@@ -129,6 +129,7 @@ public class Interfaccia extends javax.swing.JFrame {
         txtF_cognomeUpdate.setText("jTextField4");
 
         jButton1.setText("PASSA A SCHERMATA GITE");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -365,6 +366,13 @@ public class Interfaccia extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_btn_aggiornaAlunnoActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        InterfacciaGite ig = new InterfacciaGite();
+        ig.setVisible(true);
+        this.dispose();
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
