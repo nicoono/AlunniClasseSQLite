@@ -34,17 +34,17 @@ public class Interfaccia extends javax.swing.JFrame {
             return;
         }
 
+        txtA_elencoAlunni.setText("");
+
         String classeSelezionata = selezionato.toString();
-        
-        for (String s : g.leggiStudenti(classeSelezionata)) {
-            txtA_elencoAlunni.append(s + "\n");
-        }
+        java.util.ArrayList<String> studenti = g.leggiStudenti(classeSelezionata);
+
         cmb_scegliAlunni.removeAllItems();
         cmb_scegliAlunniUpdate.removeAllItems();
-        for (String s : g.leggiStudenti(classeSelezionata)) {
+
+        for (String s : studenti) {
+            txtA_elencoAlunni.append(s + "\n");
             cmb_scegliAlunni.addItem(s);
-        }
-        for (String s : g.leggiStudenti(classeSelezionata)) {
             cmb_scegliAlunniUpdate.addItem(s);
         }
     }
@@ -343,7 +343,27 @@ public class Interfaccia extends javax.swing.JFrame {
     }//GEN-LAST:event_cmb_scegliAlunniActionPerformed
 
     private void btn_aggiornaAlunnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aggiornaAlunnoActionPerformed
-        // TODO add your handling code here:
+        String nome = txtF_nomeUpdate.getText().trim();
+        String cognome = txtF_cognomeUpdate.getText().trim();
+        Object alunnoScelto = cmb_scegliAlunniUpdate.getSelectedItem();
+        
+        String rigaAlunno = alunnoScelto.toString();
+        int idAlunno = Integer.parseInt(rigaAlunno.split(" - ")[0]);
+        
+        if (nome.isEmpty() || cognome.isEmpty() || alunnoScelto == null) {
+            JOptionPane.showMessageDialog(this, "Per favore, compila tutti i campi e seleziona una classe.");
+        }
+        else if(g.aggiornaAlunno(idAlunno, nome, cognome)){
+            JOptionPane.showMessageDialog(this, "Alunno aggiornato!");
+            txtF_nomeUpdate.setText("");
+            txtF_cognomeUpdate.setText("");
+            this.aggiorna();
+        }
+         else {
+            JOptionPane.showMessageDialog(this, "Errore nell'inserimento.");
+        }
+        
+        
     }//GEN-LAST:event_btn_aggiornaAlunnoActionPerformed
 
     /**
