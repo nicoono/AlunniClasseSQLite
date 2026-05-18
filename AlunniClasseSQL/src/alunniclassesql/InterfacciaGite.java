@@ -13,13 +13,14 @@ import java.util.ArrayList;
 public class InterfacciaGite extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(InterfacciaGite.class.getName());
-    Gestore g;
+    Gestore g = new Gestore();
     /**
      * Creates new form InterfacciaGite
      */
     public InterfacciaGite() {
         initComponents();
-        g = new Gestore();
+        this.aggiornaGite();
+        
         txtA_gite.setText(""); 
     
     ArrayList<String> partecipanti = g.leggiPartecipazioneGita();
@@ -30,8 +31,23 @@ public class InterfacciaGite extends javax.swing.JFrame {
         for (String s : partecipanti) {
             txtA_gite.append(s + "\n");
         }
+    } 
     }
+    public void aggiornaGite() {
+    Object selezionato = cmb_scegliGita.getSelectedItem();
+    if (selezionato == null) {
+        return;
     }
+
+    txtA_mostraGite.setText("");
+
+    String gitaSelezionata = selezionato.toString();
+    ArrayList<String> partecipanti = g.leggiPartecipazioneGitaSpecifica(gitaSelezionata);
+
+    for (String s : partecipanti) {
+        txtA_mostraGite.append(s + "\n");
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -44,6 +60,10 @@ public class InterfacciaGite extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtA_gite = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
+        cmb_scegliGita = new javax.swing.JComboBox<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtA_mostraGite = new javax.swing.JTextArea();
+        btn_home = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -52,6 +72,16 @@ public class InterfacciaGite extends javax.swing.JFrame {
         jScrollPane1.setViewportView(txtA_gite);
 
         jLabel1.setText("ELENCO ALUNNI CHE PARTECIPANO AD UNA GITA");
+
+        cmb_scegliGita.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Firenze", "Roma", "Venezia", "Milano", "Napoli", "Torino", "Bologna" }));
+        cmb_scegliGita.addActionListener(this::cmb_scegliGitaActionPerformed);
+
+        txtA_mostraGite.setColumns(20);
+        txtA_mostraGite.setRows(5);
+        jScrollPane2.setViewportView(txtA_mostraGite);
+
+        btn_home.setText("HOME");
+        btn_home.addActionListener(this::btn_homeActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -62,20 +92,45 @@ public class InterfacciaGite extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(603, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 299, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                    .addComponent(cmb_scegliGita, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(54, 54, 54))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_home)
+                .addGap(421, 421, 421))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(cmb_scegliGita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_home)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_homeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_homeActionPerformed
+       Interfaccia i = new Interfaccia();
+       i.setVisible(true);
+       this.dispose();
+       
+    }//GEN-LAST:event_btn_homeActionPerformed
+
+    private void cmb_scegliGitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_scegliGitaActionPerformed
+        this.aggiornaGite();
+    }//GEN-LAST:event_cmb_scegliGitaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -103,8 +158,12 @@ public class InterfacciaGite extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_home;
+    private javax.swing.JComboBox<String> cmb_scegliGita;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea txtA_gite;
+    private javax.swing.JTextArea txtA_mostraGite;
     // End of variables declaration//GEN-END:variables
 }

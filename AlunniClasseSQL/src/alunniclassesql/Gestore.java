@@ -67,6 +67,8 @@ public class Gestore {
                 } else {
                     pagatoTesto = "NO";
                 }
+                String riga = nome + " - " + cognome + " - " + destinazione + " - " + prezzo + " - " + pagatoTesto;
+                partecipanti.add(riga);
                 System.out.println(nome + " - " + cognome + " - " + destinazione + " - " + prezzo + " - " + pagatoTesto);
             }
         } catch (Exception e) {
@@ -127,4 +129,39 @@ public class Gestore {
         }
 
     }
+    
+    public ArrayList<String> leggiPartecipazioneGitaSpecifica(String gitaSelezionata){
+        ArrayList<String> partecipanti = new ArrayList<>();
+        
+        String query = "SELECT alunni.nome, alunni.cognome, gite.destinazione, gite.prezzo, partecipanti.pagato "
+                 + "FROM alunni "
+                 + "JOIN partecipanti ON alunni.id_alunno = partecipanti.id_alunno "
+                 + "JOIN gite ON partecipanti.id_gita = gite.id_gita "
+                 + "WHERE gite.destinazione = ?";
+        
+        try (Connection conn = DriverManager.getConnection(url); PreparedStatement ps = conn.prepareStatement(query)) {
+        ps.setString(1, gitaSelezionata);
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                String nome = rs.getString("nome");
+                String cognome = rs.getString("cognome");
+                String destinazione = rs.getString("destinazione");
+                double prezzo = rs.getDouble("prezzo");
+                int pagato = rs.getInt("pagato");
+                String pagatoTesto = " ";
+                if (pagato == 1) {
+                    pagatoTesto = "SI";
+                } else {
+                    pagatoTesto = "NO";
+                }
+                String riga = nome + " - " + cognome + " - " + destinazione + " - " + prezzo + " - " + pagatoTesto;
+                partecipanti.add(riga);
+            }
+        }  
+    }
+    catch (Exception e) {
+        e.printStackTrace();
+    }
+    return partecipanti;   
+}
 }
