@@ -17,7 +17,9 @@ public class Gestore {
 
     public ArrayList<String> leggiClassi() {
         ArrayList<String> classi = new ArrayList<>();
-        try (Connection conn = DBManager.getConnection(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery("SELECT * FROM classi")) {
+        try (Connection conn = DBManager.getConnection(); 
+                Statement st = conn.createStatement(); 
+                ResultSet rs = st.executeQuery("SELECT * FROM classi")) {
 
             while (rs.next()) {
                 classi.add(rs.getString("id_classe") + " - " + rs.getString("indirizzo"));
@@ -34,7 +36,8 @@ public class Gestore {
 
         String query = "SELECT id_alunno, nome, cognome FROM alunni WHERE id_classe = ?";
 
-        try (Connection conn = DriverManager.getConnection(url); PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DBManager.getConnection();
+                PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, idClasseCercato);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -51,7 +54,9 @@ public class Gestore {
     public ArrayList<String> leggiPartecipazioneGita() {
         ArrayList<String> partecipanti = new ArrayList<>();
         System.out.println("elenco degli alunni che partecipano ad  una gita:");
-        try (Connection conn = DriverManager.getConnection(url); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery("SELECT alunni.nome, alunni.cognome, gite.destinazione, gite.prezzo, partecipanti.pagato "
+        try (Connection conn = DBManager.getConnection();
+                Statement st = conn.createStatement();
+                ResultSet rs = st.executeQuery("SELECT alunni.nome, alunni.cognome, gite.destinazione, gite.prezzo, partecipanti.pagato "
                 + "FROM alunni "
                 + "JOIN partecipanti ON alunni.id_alunno = partecipanti.id_alunno "
                 + "JOIN gite ON partecipanti.id_gita = gite.id_gita")) {
@@ -82,7 +87,8 @@ public class Gestore {
 
         String query = "INSERT INTO alunni (nome, cognome, id_classe) VALUES (?, ?, ?)";
 
-        try (Connection conn = DriverManager.getConnection(url); PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DBManager.getConnection();
+                PreparedStatement ps = conn.prepareStatement(query)) {
 
             ps.setString(1, nome);
             ps.setString(2, cognome);
@@ -99,7 +105,8 @@ public class Gestore {
 
     public boolean rimuoviAlunno(int idAlunno) {
         String query = "DELETE FROM alunni WHERE id_alunno=?";
-        try (Connection conn = DriverManager.getConnection(url); PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DBManager.getConnection(); 
+                PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, idAlunno);
 
             int righeCancellate = ps.executeUpdate();
@@ -114,7 +121,8 @@ public class Gestore {
 
     public boolean aggiornaAlunno(int idAlunno, String nuovoNome, String nuovoCognome) {
         String query = "UPDATE alunni SET nome = ?, cognome = ? WHERE id_alunno = ?";
-        try (Connection conn = DriverManager.getConnection(url); PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DBManager.getConnection();
+                PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, nuovoNome);
             ps.setString(2, nuovoCognome);
             ps.setInt(3, idAlunno);
@@ -139,7 +147,8 @@ public class Gestore {
                  + "JOIN gite ON partecipanti.id_gita = gite.id_gita "
                  + "WHERE gite.destinazione = ?";
         
-        try (Connection conn = DriverManager.getConnection(url); PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DBManager.getConnection();
+                PreparedStatement ps = conn.prepareStatement(query)) {
         ps.setString(1, gitaSelezionata);
         try (ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
