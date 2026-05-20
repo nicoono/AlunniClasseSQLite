@@ -17,9 +17,7 @@ public class Gestore {
 
     public ArrayList<String> leggiClassi() {
         ArrayList<String> classi = new ArrayList<>();
-        try (Connection conn = DBManager.getConnection(); 
-                Statement st = conn.createStatement(); 
-                ResultSet rs = st.executeQuery("SELECT * FROM classi")) {
+        try (Connection conn = DBManager.getConnection(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery("SELECT * FROM classi")) {
 
             while (rs.next()) {
                 classi.add(rs.getString("id_classe") + " - " + rs.getString("indirizzo"));
@@ -36,8 +34,7 @@ public class Gestore {
 
         String query = "SELECT id_alunno, nome, cognome FROM alunni WHERE id_classe = ?";
 
-        try (Connection conn = DBManager.getConnection();
-                PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DBManager.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, idClasseCercato);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -51,44 +48,39 @@ public class Gestore {
         return studenti;
     }
 
-    public ArrayList<String> leggiPartecipazioneGita() {
-        ArrayList<String> partecipanti = new ArrayList<>();
-        System.out.println("elenco degli alunni che partecipano ad  una gita:");
-        try (Connection conn = DBManager.getConnection();
-                Statement st = conn.createStatement();
-                ResultSet rs = st.executeQuery("SELECT alunni.nome, alunni.cognome, gite.destinazione, gite.prezzo, partecipanti.pagato "
+    public ArrayList<String[]> leggiPartecipazioneGita() {
+        ArrayList<String[]> partecipanti = new ArrayList<>();
+
+        String query = "SELECT alunni.nome, alunni.cognome, gite.destinazione, gite.prezzo, partecipanti.pagato "
                 + "FROM alunni "
                 + "JOIN partecipanti ON alunni.id_alunno = partecipanti.id_alunno "
-                + "JOIN gite ON partecipanti.id_gita = gite.id_gita")) {
+                + "JOIN gite ON partecipanti.id_gita = gite.id_gita";
+
+        try (Connection conn = DBManager.getConnection(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(query)) {
+
             while (rs.next()) {
                 String nome = rs.getString("nome");
                 String cognome = rs.getString("cognome");
+                String classe = "N.D.";
                 String destinazione = rs.getString("destinazione");
-                double prezzo = rs.getDouble("prezzo");
+                String prezzo = String.valueOf(rs.getDouble("prezzo"));
+
                 int pagato = rs.getInt("pagato");
-                String pagatoTesto = " ";
-                if (pagato == 1) {
-                    pagatoTesto = "SI";
-                } else {
-                    pagatoTesto = "NO";
-                }
-                String riga = nome + " - " + cognome + " - " + destinazione + " - " + prezzo + " - " + pagatoTesto;
+                String pagatoTesto = (pagato == 1) ? "SI" : "NO";
+
+                String[] riga = {nome, cognome, classe, destinazione, prezzo, pagatoTesto};
                 partecipanti.add(riga);
-                System.out.println(nome + " - " + cognome + " - " + destinazione + " - " + prezzo + " - " + pagatoTesto);
             }
         } catch (Exception e) {
-            System.err.println("Errore durante la lettura: " + e.getMessage());
             e.printStackTrace();
         }
         return partecipanti;
     }
-
     public boolean aggiungiAlunno(String nome, String cognome, String idClasse) {
 
         String query = "INSERT INTO alunni (nome, cognome, id_classe) VALUES (?, ?, ?)";
 
-        try (Connection conn = DBManager.getConnection();
-                PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DBManager.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
 
             ps.setString(1, nome);
             ps.setString(2, cognome);
@@ -105,8 +97,7 @@ public class Gestore {
 
     public boolean rimuoviAlunno(int idAlunno) {
         String query = "DELETE FROM alunni WHERE id_alunno=?";
-        try (Connection conn = DBManager.getConnection(); 
-                PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DBManager.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, idAlunno);
 
             int righeCancellate = ps.executeUpdate();
@@ -121,8 +112,7 @@ public class Gestore {
 
     public boolean aggiornaAlunno(int idAlunno, String nuovoNome, String nuovoCognome) {
         String query = "UPDATE alunni SET nome = ?, cognome = ? WHERE id_alunno = ?";
-        try (Connection conn = DBManager.getConnection();
-                PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DBManager.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, nuovoNome);
             ps.setString(2, nuovoCognome);
             ps.setInt(3, idAlunno);
@@ -137,40 +127,5 @@ public class Gestore {
         }
 
     }
-    
-    public ArrayList<String> leggiPartecipazioneGitaSpecifica(String gitaSelezionata){
-        ArrayList<String> partecipanti = new ArrayList<>();
-        
-        String query = "SELECT alunni.nome, alunni.cognome, gite.destinazione, gite.prezzo, partecipanti.pagato "
-                 + "FROM alunni "
-                 + "JOIN partecipanti ON alunni.id_alunno = partecipanti.id_alunno "
-                 + "JOIN gite ON partecipanti.id_gita = gite.id_gita "
-                 + "WHERE gite.destinazione = ?";
-        
-        try (Connection conn = DBManager.getConnection();
-                PreparedStatement ps = conn.prepareStatement(query)) {
-        ps.setString(1, gitaSelezionata);
-        try (ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                String nome = rs.getString("nome");
-                String cognome = rs.getString("cognome");
-                String destinazione = rs.getString("destinazione");
-                double prezzo = rs.getDouble("prezzo");
-                int pagato = rs.getInt("pagato");
-                String pagatoTesto = " ";
-                if (pagato == 1) {
-                    pagatoTesto = "SI";
-                } else {
-                    pagatoTesto = "NO";
-                }
-                String riga = nome + " - " + cognome + " - " + destinazione + " - " + prezzo + " - " + pagatoTesto;
-                partecipanti.add(riga);
-            }
-        }  
-    }
-    catch (Exception e) {
-        e.printStackTrace();
-    }
-    return partecipanti;   
-}
+
 }

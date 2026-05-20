@@ -4,7 +4,8 @@
  */
 package alunniclassesql;
 
-import java.util.ArrayList;
+import java.util.*;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,36 +19,24 @@ public class InterfacciaGite extends javax.swing.JFrame {
      * Creates new form InterfacciaGite
      */
     public InterfacciaGite() {
-        initComponents();
+        initComponents();    
         this.aggiornaGite();
-        
-        txtA_gite.setText(""); 
-    
-    ArrayList<String> partecipanti = g.leggiPartecipazioneGita();
-
-    if (partecipanti.isEmpty()) {
-        txtA_gite.setText("Nessun partecipante trovato.");
-    } else {
-        for (String s : partecipanti) {
-            txtA_gite.append(s + "\n");
-        }
-    } 
     }
     public void aggiornaGite() {
-    Object selezionato = cmb_scegliGita.getSelectedItem();
-    if (selezionato == null) {
-        return;
+        // 1. Chiediamo al gestore la lista globale di tutti i partecipanti
+        ArrayList<String[]> partecipanti = g.leggiPartecipazioneGita();
+
+        // 2. Otteniamo il modello della tabella che hai creato dalla Palette
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+        // 3. Svuotiamo le righe vuote o vecchie presenti nel Design
+        model.setRowCount(0);
+
+        // 4. Inseriamo i dati reali riga per riga
+        for (String[] riga : partecipanti) {
+            model.addRow(riga);
+        }
     }
-
-    txtA_mostraGite.setText("");
-
-    String gitaSelezionata = selezionato.toString();
-    ArrayList<String> partecipanti = g.leggiPartecipazioneGitaSpecifica(gitaSelezionata);
-
-    for (String s : partecipanti) {
-        txtA_mostraGite.append(s + "\n");
-    }
-}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -57,65 +46,49 @@ public class InterfacciaGite extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtA_gite = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
-        cmb_scegliGita = new javax.swing.JComboBox<>();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        txtA_mostraGite = new javax.swing.JTextArea();
         btn_home = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        txtA_gite.setColumns(20);
-        txtA_gite.setRows(5);
-        jScrollPane1.setViewportView(txtA_gite);
-
-        jLabel1.setText("ELENCO ALUNNI CHE PARTECIPANO AD UNA GITA");
-
-        cmb_scegliGita.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Firenze", "Roma", "Venezia", "Milano", "Napoli", "Torino", "Bologna" }));
-        cmb_scegliGita.addActionListener(this::cmb_scegliGitaActionPerformed);
-
-        txtA_mostraGite.setColumns(20);
-        txtA_mostraGite.setRows(5);
-        jScrollPane2.setViewportView(txtA_mostraGite);
-
         btn_home.setText("HOME");
         btn_home.addActionListener(this::btn_homeActionPerformed);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "NOME", "COGNOME", "CLASSE", "DESTINAZIONE", "PREZZO", "PAGATO"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 299, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-                    .addComponent(cmb_scegliGita, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(54, 54, 54))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 749, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addComponent(btn_home)
-                .addGap(421, 421, 421))
+                .addGap(72, 72, 72))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(cmb_scegliGita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btn_home)
-                .addContainerGap())
+                .addGap(30, 30, 30))
         );
 
         pack();
@@ -127,10 +100,6 @@ public class InterfacciaGite extends javax.swing.JFrame {
        this.dispose();
        
     }//GEN-LAST:event_btn_homeActionPerformed
-
-    private void cmb_scegliGitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_scegliGitaActionPerformed
-        this.aggiornaGite();
-    }//GEN-LAST:event_cmb_scegliGitaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -159,11 +128,7 @@ public class InterfacciaGite extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_home;
-    private javax.swing.JComboBox<String> cmb_scegliGita;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea txtA_gite;
-    private javax.swing.JTextArea txtA_mostraGite;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
