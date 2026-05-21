@@ -21,7 +21,7 @@ public class Interfaccia extends javax.swing.JFrame {
      */
     public Interfaccia() {
         initComponents();
-        this.setSize(946, 580);
+        this.setSize(945, 670);
         for (String classe : g.leggiClassi()) {
                 cmb_mostraClassi.addItem(classe);
             }
@@ -30,14 +30,22 @@ public class Interfaccia extends javax.swing.JFrame {
         txtF_nomeUpdate.setText("");
         txtF_cognomeUpdate.setText("");
         
+        this.aggiornaGite();
     }
     public void aggiorna(){
         Object selezionato = cmb_mostraClassi.getSelectedItem();
+        String idClasse = selezionato.toString().split(" - ")[0];
+        ArrayList<String> studenti = g.leggiStudenti(idClasse);
         if (selezionato == null) {
             return;
         }
 
         txtA_elencoAlunni.setText("");
+        if (studenti != null) {
+        for (String alunno : studenti) {
+            txtA_elencoAlunni.append(alunno + "\n");
+        }
+    }
     }
     
         public void aggiornaGite() {
@@ -275,13 +283,13 @@ public class Interfaccia extends javax.swing.JFrame {
 
         tbl_gite.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "NOME", "COGNOME", "ID", "DESTINAZIONE", "PREZZO", "PAGATO"
             }
         ));
         jScrollPane2.setViewportView(tbl_gite);
@@ -323,7 +331,22 @@ public class Interfaccia extends javax.swing.JFrame {
     }//GEN-LAST:event_cmb_mostraClassiActionPerformed
 
     private void btn_rimuoviActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_rimuoviActionPerformed
-        
+        int rigaSelezionata = tbl_gite.getSelectedRow();
+    
+    if (rigaSelezionata == -1) {
+        return;
+    }
+    
+    String nome = tbl_gite.getValueAt(rigaSelezionata, 0).toString();
+    String cognome = tbl_gite.getValueAt(rigaSelezionata, 1).toString();
+    String destinazione = tbl_gite.getValueAt(rigaSelezionata, 3).toString();
+    
+    boolean successo = g.rimuoviPartecipazioneGita(nome, cognome, destinazione);
+    
+    if (successo) {
+        JOptionPane.showMessageDialog(this, "alunno eliminato");
+        this.aggiornaGite();
+    }
         this.aggiorna();
     }//GEN-LAST:event_btn_rimuoviActionPerformed
 
@@ -354,27 +377,29 @@ public class Interfaccia extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_aggiungiAlunnoActionPerformed
 
     private void btn_aggiornaAlunnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aggiornaAlunnoActionPerformed
+        int rigaSelezionata = tbl_gite.getSelectedRow();
+        
+        if (rigaSelezionata == -1) {
+            return;
+        }
+        
         String nome = txtF_nomeUpdate.getText().trim();
         String cognome = txtF_cognomeUpdate.getText().trim();
-        Object alunnoScelto = cmb_scegliAlunniUpdate.getSelectedItem();
+        int idAlunno = Integer.parseInt(tbl_gite.getValueAt(rigaSelezionata, 2).toString());
         
-        String rigaAlunno = alunnoScelto.toString();
-        int idAlunno = Integer.parseInt(rigaAlunno.split(" - ")[0]);
-        
-        if (nome.isEmpty() || cognome.isEmpty() || alunnoScelto == null) {
-            JOptionPane.showMessageDialog(this, "Per favore, compila tutti i campi e seleziona una classe.");
+        if (nome.isEmpty() || cognome.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Per favore, compila tutti i campi.");
         }
         else if(g.aggiornaAlunno(idAlunno, nome, cognome)){
-            JOptionPane.showMessageDialog(this, "Alunno aggiornato!");
+            JOptionPane.showMessageDialog(this, "alunno modificato");
             txtF_nomeUpdate.setText("");
             txtF_cognomeUpdate.setText("");
+            this.aggiornaGite();
             this.aggiorna();
         }
-         else {
+        else {
             JOptionPane.showMessageDialog(this, "Errore nell'inserimento.");
         }
-        
-        
     }//GEN-LAST:event_btn_aggiornaAlunnoActionPerformed
 
     /**

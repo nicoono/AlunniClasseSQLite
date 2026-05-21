@@ -49,33 +49,40 @@ public class Gestore {
     }
 
     public ArrayList<String[]> leggiPartecipazioneGita() {
-        ArrayList<String[]> partecipanti = new ArrayList<>();
+    ArrayList<String[]> partecipanti = new ArrayList<>();
+    
+    String query = "SELECT alunni.id_alunno, alunni.nome, alunni.cognome, gite.destinazione, gite.prezzo, partecipanti.pagato "
+                 + "FROM alunni "
+                 + "JOIN partecipanti ON alunni.id_alunno = partecipanti.id_alunno "
+                 + "JOIN gite ON partecipanti.id_gita = gite.id_gita";
 
-        String query = "SELECT alunni.nome, alunni.cognome, gite.destinazione, gite.prezzo, partecipanti.pagato "
-                + "FROM alunni "
-                + "JOIN partecipanti ON alunni.id_alunno = partecipanti.id_alunno "
-                + "JOIN gite ON partecipanti.id_gita = gite.id_gita";
-
-        try (Connection conn = DBManager.getConnection(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(query)) {
-
-            while (rs.next()) {
-                String nome = rs.getString("nome");
-                String cognome = rs.getString("cognome");
-                String classe = "N.D.";
-                String destinazione = rs.getString("destinazione");
-                String prezzo = String.valueOf(rs.getDouble("prezzo"));
-
-                int pagato = rs.getInt("pagato");
-                String pagatoTesto = (pagato == 1) ? "SI" : "NO";
-
-                String[] riga = {nome, cognome, classe, destinazione, prezzo, pagatoTesto};
-                partecipanti.add(riga);
+    try (Connection conn = DBManager.getConnection(); Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(query)) {
+         
+        while (rs.next()) {
+            String idAlunno = String.valueOf(rs.getInt("id_alunno"));
+            String nome = rs.getString("nome");
+            String cognome = rs.getString("cognome");
+            String destinazione = rs.getString("destinazione");
+            String prezzo = String.valueOf(rs.getDouble("prezzo"));
+            
+            int pagato = rs.getInt("pagato");
+            String pagatoTesto = " ";
+            
+            if (pagato == 1) {
+                pagatoTesto = "SI";
+            } else {
+                pagatoTesto = "NO";
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            
+            String[] riga = {nome, cognome, idAlunno, destinazione, prezzo, pagatoTesto};
+            partecipanti.add(riga);
         }
-        return partecipanti;
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+    return partecipanti;
+    }
+    
     public boolean aggiungiAlunno(String nome, String cognome, String idClasse) {
 
         String query = "INSERT INTO alunni (nome, cognome, id_classe) VALUES (?, ?, ?)";
@@ -97,7 +104,8 @@ public class Gestore {
 
     public boolean rimuoviAlunno(int idAlunno) {
         String query = "DELETE FROM alunni WHERE id_alunno=?";
-        try (Connection conn = DBManager.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = DBManager.getConnection(); 
+                PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, idAlunno);
 
             int righeCancellate = ps.executeUpdate();
@@ -126,6 +134,27 @@ public class Gestore {
             return false;
         }
 
+    }
+    
+    
+    public boolean rimuoviPartecipazioneGita(String nome, String cognome, String destinazione) {
+        String query = "DELETE FROM partecipanti WHERE id_alunno = ("
+                     + "  SELECT id_alunno FROM alunni WHERE nome = ? AND cognome = ?"
+                     + ") AND id_gita = ("
+                     + "  SELECT id_gita FROM gite WHERE destinazione = ?"
+                     + ")";
+                     
+        try (Connection conn = DBManager.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, nome);
+            ps.setString(2, cognome);
+            ps.setString(3, destinazione);
+            
+            int righeCancellate = ps.executeUpdate();
+            return righeCancellate > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }
