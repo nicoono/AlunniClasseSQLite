@@ -61,7 +61,6 @@ public class Interfaccia extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btn_aggiungiAlunno = new javax.swing.JButton();
         btn_rimuovi = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
@@ -77,6 +76,8 @@ public class Interfaccia extends javax.swing.JFrame {
         txtF_nome = new javax.swing.JTextField();
         txtF_cognome = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
+        btn_aggiungiAlunno = new javax.swing.JButton();
+        cmb_scegliGita = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         cmb_mostraClassi = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
@@ -97,21 +98,16 @@ public class Interfaccia extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
-        btn_aggiungiAlunno.setText("AGGIUNGI ALUNNO");
-        btn_aggiungiAlunno.addActionListener(this::btn_aggiungiAlunnoActionPerformed);
-        getContentPane().add(btn_aggiungiAlunno);
-        btn_aggiungiAlunno.setBounds(536, 84, 390, 23);
-
         btn_rimuovi.setText("RIMUOVI ALUNNO");
         btn_rimuovi.addActionListener(this::btn_rimuoviActionPerformed);
         getContentPane().add(btn_rimuovi);
-        btn_rimuovi.setBounds(617, 168, 250, 23);
+        btn_rimuovi.setBounds(620, 240, 250, 23);
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
         getContentPane().add(jSeparator1);
         jSeparator1.setBounds(527, 0, 3, 630);
         getContentPane().add(jSeparator2);
-        jSeparator2.setBounds(527, 119, 405, 3);
+        jSeparator2.setBounds(530, 150, 405, 3);
 
         jLabel3.setText("NOME");
         getContentPane().add(jLabel3);
@@ -128,9 +124,9 @@ public class Interfaccia extends javax.swing.JFrame {
 
         jLabel6.setText("RIMUOVI ALUNNO");
         getContentPane().add(jLabel6);
-        jLabel6.setBounds(685, 128, 100, 16);
+        jLabel6.setBounds(690, 200, 100, 16);
         getContentPane().add(jSeparator3);
-        jSeparator3.setBounds(536, 258, 390, 3);
+        jSeparator3.setBounds(540, 330, 390, 3);
 
         jLabel7.setText("AGGIORNA ALUNNO");
         getContentPane().add(jLabel7);
@@ -159,19 +155,35 @@ public class Interfaccia extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(153, 255, 255));
 
+        btn_aggiungiAlunno.setText("AGGIUNGI ALUNNO");
+        btn_aggiungiAlunno.addActionListener(this::btn_aggiungiAlunnoActionPerformed);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btn_aggiungiAlunno, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(121, 121, 121)
+                        .addComponent(cmb_scegliGita, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(81, Short.MAX_VALUE)
+                .addComponent(cmb_scegliGita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btn_aggiungiAlunno)
+                .addContainerGap())
         );
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(530, 0, 400, 120);
+        jPanel1.setBounds(530, 0, 400, 150);
 
         jPanel2.setBackground(new java.awt.Color(153, 255, 153));
 
@@ -240,7 +252,7 @@ public class Interfaccia extends javax.swing.JFrame {
         );
 
         getContentPane().add(jPanel3);
-        jPanel3.setBounds(530, 120, 400, 140);
+        jPanel3.setBounds(530, 200, 400, 140);
 
         jPanel4.setBackground(new java.awt.Color(153, 153, 255));
 
@@ -351,28 +363,28 @@ public class Interfaccia extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_rimuoviActionPerformed
 
     private void btn_aggiungiAlunnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aggiungiAlunnoActionPerformed
-        
         String nome = txtF_nome.getText().trim();
         String cognome = txtF_cognome.getText().trim();
-        Object selezionato = cmb_mostraClassi.getSelectedItem();
-        //Estraggo l'ID della classe (es. da "3AI - Informatica" prendo "3AI")
-        String idClasse = selezionato.toString().split(" - ")[0];
-        String classeSelezionata = selezionato.toString();
+        Object classeSelezionata = cmb_mostraClassi.getSelectedItem();
+        Object gitaSelezionata = cmb_scegliGita.getSelectedItem();
         
-        if (nome.isEmpty() || cognome.isEmpty() || selezionato == null) {
-            JOptionPane.showMessageDialog(this, "Per favore, compila tutti i campi e seleziona una classe.");
+        if (nome.isEmpty() || cognome.isEmpty() || classeSelezionata == null || gitaSelezionata == null) {
+            JOptionPane.showMessageDialog(this, "Per favore, compila tutti i campi, seleziona una classe e una gita.");
+            return;
         }
 
-        else if (g.aggiungiAlunno(nome, cognome, idClasse)) {
-            JOptionPane.showMessageDialog(this, "Alunno inserito!");
-
+        String idClasse = classeSelezionata.toString().split(" - ")[0];
+        String nomeGita = gitaSelezionata.toString();
+        
+        if (g.aggiungiAlunnoConGita(nome, cognome, idClasse, nomeGita)) {
+            JOptionPane.showMessageDialog(this, "Alunno inserito e iscritto alla gita!");
             txtF_nome.setText("");
             txtF_cognome.setText("");
-
+            this.aggiorna();
+            this.aggiornaGite();
         } else {
             JOptionPane.showMessageDialog(this, "Errore nell'inserimento.");
         }
-        
         this.aggiorna();
     }//GEN-LAST:event_btn_aggiungiAlunnoActionPerformed
 
@@ -432,6 +444,7 @@ public class Interfaccia extends javax.swing.JFrame {
     private javax.swing.JButton btn_aggiungiAlunno;
     private javax.swing.JButton btn_rimuovi;
     private javax.swing.JComboBox<String> cmb_mostraClassi;
+    private javax.swing.JComboBox<String> cmb_scegliGita;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
