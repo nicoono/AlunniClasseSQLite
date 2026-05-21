@@ -23,16 +23,16 @@ public class InterfacciaGite extends javax.swing.JFrame {
         this.aggiornaGite();
     }
     public void aggiornaGite() {
-        // 1. Chiediamo al gestore la lista globale di tutti i partecipanti
+        
         ArrayList<String[]> partecipanti = g.leggiPartecipazioneGita();
 
-        // 2. Otteniamo il modello della tabella che hai creato dalla Palette
+       
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
-        // 3. Svuotiamo le righe vuote o vecchie presenti nel Design
+        
         model.setRowCount(0);
 
-        // 4. Inseriamo i dati reali riga per riga
+        
         for (String[] riga : partecipanti) {
             model.addRow(riga);
         }
